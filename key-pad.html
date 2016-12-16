@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+
 <link rel="import" href="key-pad-styles.html">
 <!--
 `key-pad`
@@ -9,43 +11,35 @@ A custom UI keypad
 <dom-module id="key-pad">
     <style include="key-pad-styles"></style>
     <template>
-        <div class="keypad-wrapper">
-            <div class="row">
-                <div class="col">
-                    <div class="container-text"></div>
+        <section class="key-pad__wrapper">
+
+            <div class="key-pad__headerTitle"></div>
+
+            <header class="key-pad__containerPoints">
+                <div class="key-pad__points">
+                    <div class="key-pad__point key-pad__point--selected key-pad__point--1"></div>
+                    <div class="key-pad__point key-pad__point--2"></div>
+                    <div class="key-pad__point key-pad__point--3"></div>
+                    <div class="key-pad__point key-pad__point--4"></div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="container-points">
-                        <div class="blue-points">
-                            <div ng-repeat="i in vm.getInputLength() track by $index" class="point point-border-blue" ng-class="'point'+{{$index+1}}">
-                            </div>
+                <div class="key-pad__reset">a
+                    <!-- Icon (iron-icons) -->
+                </div>
+            </header>
+
+            <div class="key-pad__keyNums">
+                <template is="dom-repeat" items="[[ _keypadNums ]]" as="keyNum">
+                    <div class$="key-pad__keyNum key-pad__[[ index ]]">
+                        <div class="key-pad__keyNum-content">
+                            [[ keyNum ]]
                         </div>
-                        <div ng-click="vm.resetInput()">
-                            <div class="icon-san san-close text color-cyan-light"></div>
-                        </div>
                     </div>
+                </template>
+                <div class="key-pad__keyNum key-pad__ok">
+                    <div class="key-pad__keyNum-content">OK</div>
                 </div>
             </div>
-            <div class="button-wrapper">
-                <div ng-repeat-start="group in vm.keypadNums" ng-if="!$last" class="row">
-                    <div ng-repeat="n in group" class="col">
-                        <button on-tap="vm.onTapNumber(n)">{{::n}}</button>
-                    </div>
-                </div>
-                <div ng-repeat-end ng-if="$last" class="row">
-                    <div ng-repeat="n in group" class="col col-offset-33">
-                        <button on-tap="vm.onTapNumber(n)">{{::n}}</button>
-                    </div>
-                    <div class="col">
-                        <button class="ok animated" ng-click="vm.onTapOk()" ng-disabled="vm.disabledOk">
-                            <span class="icon-san san-ok text"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
     </template>
     <script src="key-pad.js"></script>
 </dom-module>
