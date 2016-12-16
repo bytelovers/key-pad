@@ -15,34 +15,9 @@ A custom UI keypad
         <div class$="key-pad-key__keyNum key-pad-key__[[ label ]]"
              on-tap="_onTapKey">
             <div class="key-pad-key__keyNum-content">
-                [[ label ]]
+                <span>[[ label ]]</span>
             </div>
         </div>
     </template>
-
-    <script>
-        'use strict';
-
-        Polymer({
-            is: 'key-pad-key',
-            properties: {
-                key: {
-                    type: String
-                },
-                label: {
-                    type: String
-                }
-            },
-            ready: function() {
-                if (!this.label) {
-                    this.set('label', this.key);
-                }
-            },
-
-            _onTapKey: function(evt) {
-                this.fire('key-pad-key.key', evt.model.key);
-                console.log('key-pad-key.key', evt.model.key);
-            }
-        })
-    </script>
+    <script src="key-pad-key.js"></script>
 </dom-module>

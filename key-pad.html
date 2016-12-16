@@ -26,7 +26,8 @@ A custom UI keypad
 
                     <!-- <div class="key-pad__point key-pad__point--selected key-pad__point--1"></div> -->
                 </div>
-                <div class="key-pad__reset">
+                <div class="key-pad__reset"
+                     on-tap="_onTapReset">
                     <iron-icon icon="icons:close"></iron-icon>
                 </div>
             </header>
@@ -35,10 +36,7 @@ A custom UI keypad
                 <template is="dom-repeat" items="[[ _keypadNums ]]" as="keyNum">
                     <key-pad-key key="[[ keyNum ]]"></key-pad-key>
                 </template>
-                <div class="key-pad__keyNum key-pad__ok"
-                     on-tap="">
-                    <div class="key-pad__keyNum-content">OK</div>
-                </div>
+                <key-pad-key key="Intro" label="OK"></key-pad-key>
             </div>
         </section>
     </template>

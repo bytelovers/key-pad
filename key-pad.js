@@ -1,8 +1,42 @@
 'use strict';
 
+/**
+ * Generate a random array
+ * @param  {Integer} inPutArray Number of elements in array
+ * @return {Array}              A shuffled array
+ */
+var _uniqueRandomNumber = function(inPutArray) {
+    var sArray    = [];
+    var storeList = [];
+    var k         = 1;
+
+    // Inserts Numbers in Array
+    for (var i = 1; i <= inPutArray; i++) {
+        sArray.push(i);
+    }
+    // Outputs numbers non-repeated
+    while (k <= inPutArray) {
+        // Search for value inside the Array in a random position
+        var randomPos = Math.floor(Math.random() * sArray.length);
+        // Selects value and removes it from Array
+        var valueFromArray = sArray.splice(randomPos, 1);
+        // Converts value in number
+        var numberRand = parseInt(valueFromArray);
+        //store and make array key for as like 0,1,2 for length :3
+        storeList.push(numberRand - 1);
+        k++;
+    }
+    return storeList;
+};
+
+var keys;
+
 Polymer({
 
     is: 'key-pad',
+    listeners: {
+        'key-pad-key:key': '_onKeypadKey'
+    },
 
     properties: {
         /**
@@ -15,11 +49,19 @@ Polymer({
             value: ''
         },
 
+        /**
+         * Max input length for keypad
+         * @type {Boolean}
+         */
         maxLength: {
             type: Number,
             value: 4
         },
 
+        /**
+         * Ordering keys
+         * @type {Boolean}
+         */
         shuffle: {
             type: Boolean
         },
@@ -40,9 +82,14 @@ Polymer({
     },
 
     attached: function() {
-        var shuffle = this.shuffle ? true : false;
-
+        var shuffle = !!this.shuffle ? false : true;
         this.set('_keypadNums', this._getRandomNumbers(shuffle));
+        
+
+    },
+
+    destroy: function() {
+        this.unlisten(keys, 'key-pad-key:key');
     },
 
     reset: function() {
@@ -61,50 +108,19 @@ Polymer({
     },
 
     ////// EVENTS
-
-    _onTapKey: function(evt) {
-        if (this.model.length < this.maxLength) {
-            this._setModel(this.model + evt.model.keyNum);
-            this.fire('key-pad.num-clicked', evt.model.keyNum);
-            console.log(evt.model.keyNum);
+    _onKeypadKey: function(evt, detail) {
+        //TODO: Check characters
+        var keyValue = detail.toString();
+        
+        if (this._keyLength < this.maxLength) {
+            this._setModel(this.model + keyValue);
+            this._keyLength++;
         }
-    },
-
-    _onTapOk: function() {
-        this.fire('key-pad.ok-clicked');
     },
 
     _onTapReset: function() {
-        this.fire('key-pad.reset-clicked');
-    },
-
-    /**
-     * Generate a random array
-     * @param  {Integer} inPutArray Number of elements in array
-     * @return {Array}              A shuffled array
-     */
-    _uniqueRandomNumber: function(inPutArray) {
-        var sArray    = [];
-        var storeList = [];
-        var k         = 1;
-
-        // Inserts Numbers in Array
-        for (var i = 1; i <= inPutArray; i++) {
-            sArray.push(i);
-        }
-        // Outputs numbers non-repeated
-        while (k <= inPutArray) {
-            // Search for value inside the Array in a random position
-            var randomPos = Math.floor(Math.random() * sArray.length);
-            // Selects value and removes it from Array
-            var valueFromArray = sArray.splice(randomPos, 1);
-            // Converts value in number
-            var numberRand = parseInt(valueFromArray);
-            //store and make array key for as like 0,1,2 for length :3
-            storeList.push(numberRand - 1);
-            k++;
-        }
-        return storeList;
+        this.reset();
+        this.fire('key-pad:reset-clicked');
     },
 
     /**
@@ -113,7 +129,7 @@ Polymer({
      * @return {Array}                 Array of numbers
      */
     _getRandomNumbers: function(forceOrdering) {
-        var arr    = forceOrdering ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] : this._uniqueRandomNumber(10);
+        var arr    = forceOrdering ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] : _uniqueRandomNumber(10);
         var arrTmp = [];
         var row    = [];
 
