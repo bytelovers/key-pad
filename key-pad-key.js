@@ -19,6 +19,10 @@ Polymer({
         this.updateStyles();
     },
 
+    _computeClassKeypadKey: function() {
+        return 'key-pad-key__keyNum key-pad-key__' + this.label;
+    },
+
     _onTapKey: function(evt) {
         this.fire('key-pad-key:key', this.key);
         console.log('key-pad-key:key', this.key);

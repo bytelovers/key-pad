@@ -20,8 +20,8 @@ A custom UI keypad
 
             <header class="key-pad__containerPoints">
                 <div class="key-pad__points">
-                    <template is="dom-repeat" items="{{ _getInputLength(maxLength) }}">
-                        <div class="key-pad__point key-pad__point--[[index + 1]]"></div>
+                    <template is="dom-repeat" items="[[ _getInputLength(maxLength) ]]">
+                        <div class$="[[ _computeClassKeypadPoint(index) ]]"></div>
                     </template>
 
                     <!-- <div class="key-pad__point key-pad__point--selected key-pad__point--1"></div> -->

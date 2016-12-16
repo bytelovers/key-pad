@@ -32,9 +32,21 @@
             }
 
             .key-pad__keyNums {
+                font-size: 16px;
                 @apply(--layout);
                 @apply(--layout-wrap);
+                @apply(--key-pad-nums);
             }
+
+                .key-pad__keyNums > *:not(template) {
+                    flex: 1 0 33.3%;
+                    @apply(--layout);
+                    @apply(--layout-center-justified);
+                }
+
+                .key-pad__keyNums >*:nth-child(10) {
+                    flex-basis: 66.6%;
+                }
         </style>
     </template>
 </dom-module>

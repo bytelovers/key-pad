@@ -66,11 +66,6 @@ Polymer({
             type: Boolean
         },
 
-        _keyLength: {
-            type: Number,
-            value: 0
-        },
-
         _keypadNums: {
             type: Array
         }
@@ -84,17 +79,10 @@ Polymer({
     attached: function() {
         var shuffle = !!this.shuffle ? false : true;
         this.set('_keypadNums', this._getRandomNumbers(shuffle));
-        
-
-    },
-
-    destroy: function() {
-        this.unlisten(keys, 'key-pad-key:key');
     },
 
     reset: function() {
         this._setModel('');
-        this.set('_keyLength', 0);
     },
 
     _getInputLength: function() {
@@ -107,14 +95,19 @@ Polymer({
 
     },
 
+    // Compute clases
+    _computeClassKeypadPoint: function(index) {
+        var idx = index + 1;
+        return 'key-pad__point key-pad__point--' + idx.toString();
+    },
+
     ////// EVENTS
     _onKeypadKey: function(evt, detail) {
         //TODO: Check characters
         var keyValue = detail.toString();
         
-        if (this._keyLength < this.maxLength) {
+        if (this.model.length < this.maxLength) {
             this._setModel(this.model + keyValue);
-            this._keyLength++;
         }
     },
 

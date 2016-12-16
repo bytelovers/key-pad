@@ -12,7 +12,7 @@ A custom UI keypad
 <dom-module id="key-pad-key">
     <style include="key-pad-key-styles key-pad-key-animations"></style>
     <template>
-        <div class$="key-pad-key__keyNum key-pad-key__[[ label ]]"
+        <div class$="[[ _computeClassKeypadKey() ]]"
              on-tap="_onTapKey">
             <div class="key-pad-key__keyNum-content">
                 <span>[[ label ]]</span>
