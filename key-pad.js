@@ -46,7 +46,8 @@ Polymer({
         model: {
             type: String,
             readOnly: true,
-            value: ''
+            value: '',
+            observer: '_modelObserver'
         },
 
         /**
@@ -89,16 +90,31 @@ Polymer({
         return new Array(this.maxLength);
     },
 
-    _fillPoints: function() {
-        //TODO
-        //Add class to points to fill
-
+    // Observer
+    _modelObserver: function() {
+        this._computeClassFillPoints();
     },
 
     // Compute clases
     _computeClassKeypadPoint: function(index) {
         var idx = index + 1;
         return 'key-pad__point key-pad__point--' + idx.toString();
+    },
+
+    _computeClassFillPoints: function() {
+        var points = Polymer.dom(this.root).querySelectorAll('.key-pad__point');
+        var selectedClass = 'key-pad__point--selected';
+        var modelLen = this.model.length;
+
+        points.map(function(point, index) {
+            if (index < modelLen) {
+                point.classList.add(selectedClass);
+            } else {
+                point.classList.remove(selectedClass);
+            }
+        });
+
+        this.updateStyles();
     },
 
     ////// EVENTS
