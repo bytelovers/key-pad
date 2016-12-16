@@ -10,10 +10,21 @@ Polymer({
          * @type {String}
          */
         model: {
-            type: String
+            type: String,
+            readOnly: true,
+            value: ''
         },
 
-        keyLength: {
+        maxLength: {
+            type: Number,
+            value: 4
+        },
+
+        shuffle: {
+            type: Boolean
+        },
+
+        _keyLength: {
             type: Number,
             value: 0
         },
@@ -24,12 +35,23 @@ Polymer({
 
     },
 
+    ready: function() {
+
+    },
+
     attached: function() {
-        this.set('_keypadNums', this._getRandomNumbers());
+        var shuffle = this.shuffle ? true : false;
+
+        this.set('_keypadNums', this._getRandomNumbers(shuffle));
     },
 
     reset: function() {
+        this._setModel('');
+        this.set('_keyLength', 0);
+    },
 
+    _getInputLength: function() {
+        return new Array(this.maxLength);
     },
 
     _fillPoints: function() {
@@ -38,13 +60,22 @@ Polymer({
 
     },
 
-    _shake: function() {
-        //TODO
-        //Add class shake to the points
+    ////// EVENTS
+
+    _onTapKey: function(evt) {
+        if (this.model.length < this.maxLength) {
+            this._setModel(this.model + evt.model.keyNum);
+            this.fire('key-pad.num-clicked', evt.model.keyNum);
+            console.log(evt.model.keyNum);
+        }
     },
 
     _onTapOk: function() {
+        this.fire('key-pad.ok-clicked');
+    },
 
+    _onTapReset: function() {
+        this.fire('key-pad.reset-clicked');
     },
 
     /**
@@ -86,14 +117,15 @@ Polymer({
         var arrTmp = [];
         var row    = [];
 
-        for (var i = 0, len = arr.length; i < len; i++) {
+        /*for (var i = 0, len = arr.length; i < len; i++) {
             if (i % 3 === 0) {
                 row = [];
                 arrTmp.push(row);
             }
             row.push(arr[i]);
         }
-        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+        */
+        return arr;
         // return arrTmp;
     }
 

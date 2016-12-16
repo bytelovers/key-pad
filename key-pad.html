@@ -1,5 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-icons/maps-icons.html">
+
+<link rel="import" href="key-pad-key.html">
 
 <link rel="import" href="key-pad-styles.html">
 <!--
@@ -9,7 +12,7 @@ A custom UI keypad
 @demo demo/index.html 
 -->
 <dom-module id="key-pad">
-    <style include="key-pad-styles"></style>
+    <style include="key-pad-styles key-pad-animations"></style>
     <template>
         <section class="key-pad__wrapper">
 
@@ -17,25 +20,23 @@ A custom UI keypad
 
             <header class="key-pad__containerPoints">
                 <div class="key-pad__points">
-                    <div class="key-pad__point key-pad__point--selected key-pad__point--1"></div>
-                    <div class="key-pad__point key-pad__point--2"></div>
-                    <div class="key-pad__point key-pad__point--3"></div>
-                    <div class="key-pad__point key-pad__point--4"></div>
+                    <template is="dom-repeat" items="{{ _getInputLength(maxLength) }}">
+                        <div class="key-pad__point key-pad__point--[[index + 1]]"></div>
+                    </template>
+
+                    <!-- <div class="key-pad__point key-pad__point--selected key-pad__point--1"></div> -->
                 </div>
-                <div class="key-pad__reset">a
-                    <!-- Icon (iron-icons) -->
+                <div class="key-pad__reset">
+                    <iron-icon icon="icons:close"></iron-icon>
                 </div>
             </header>
 
             <div class="key-pad__keyNums">
                 <template is="dom-repeat" items="[[ _keypadNums ]]" as="keyNum">
-                    <div class$="key-pad__keyNum key-pad__[[ index ]]">
-                        <div class="key-pad__keyNum-content">
-                            [[ keyNum ]]
-                        </div>
-                    </div>
+                    <key-pad-key key="[[ keyNum ]]"></key-pad-key>
                 </template>
-                <div class="key-pad__keyNum key-pad__ok">
+                <div class="key-pad__keyNum key-pad__ok"
+                     on-tap="">
                     <div class="key-pad__keyNum-content">OK</div>
                 </div>
             </div>
